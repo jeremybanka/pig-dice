@@ -11,14 +11,18 @@ Describe: Player(name)
       gamesWon: 0,
     }
     
-  Describe: Player.prototype.roll()  
+  Describe: Player.prototype.roll()
     Test:
-      will create random number between 1 and 6
+      will create random number between 1 and 6 or 
     Code: 
       const previousScore = player1.score.current
       player1.roll()
       const newScore = player1.score.current
-      roll === 1 && roll > 1 
+      (
+      newScore === 0 
+      ||
+      newScore >= previousScore + 2 && newScore <= previousScore + 6
+      )
     Expect: 
       true
       
