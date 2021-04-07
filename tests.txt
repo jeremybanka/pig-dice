@@ -1,20 +1,32 @@
 Describe: Player(name)
+  Test: 
+    will create a player with desired name with scores 0, no games won
+  Code: 
+    const player1 = new Player('Jem')
+    player1
+  Expect:
+    Player {
+      name: 'Jem',
+      score: { total: 0, current: 0 },
+      gamesWon: 0,
+    }
+    
+  Describe: Player.prototype.roll()  
+    Test:
+      will create random number between 1 and 6
+    Code: 
+      const previousScore = player1.score.current
+      player1.roll()
+      const newScore = player1.score.current
+      roll === 1 && roll > 1 
+    Expect: 
+      true
+      
 
-Test: 
-  will create a player with desired name with scores 0, no games won
-Code: 
-  const player1 = new Player('Jem')
-  player1
-Expect:
-  Player {
-    name: 'Jem',
-    score: { total: 0, current: 0 },
-    gamesWon: 0,
-  }
+
 
 
 Describe: Game(number)
-
   Test:
     Will create game object with 2 players
   Code:
