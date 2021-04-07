@@ -10,7 +10,7 @@ Describe: Player(name)
       score: { total: 0, current: 0 },
       gamesWon: 0,
     }
-    
+
   Describe: Player.prototype.roll()
     Test:
       will create random number between 1 and 6 or 
@@ -54,9 +54,9 @@ Describe: Game(number)
       players: [null, null]
     }
 
-  Describe: Game.prototype.addPlayer(name, index)
+  Describe: Game.prototype.addPlayer(name)
     Test:
-      Will add player to game at desired index
+      Will add player to game.players
     Code:
       currentGame.addPlayer('John', 0)
       currentGame.players
@@ -67,10 +67,14 @@ Describe: Game(number)
           score: { total: 0, current: 0 },
           gamesWon: 0,
         }, 
-        null
       ]
 
-Describe:
-Test:
-Code:
-Expect:
+  Describe: Game.prototype.endTurn()
+    Test: 
+      Will push the first player position to the last player position
+    Code: 
+      const playerLastTurn = currentGame.players[0] 
+      currentGame.endTurn()
+      playerLastTurn === currentGame.players[players.length - 1]
+    Expect:
+      true

@@ -9,7 +9,11 @@ Game.prototype.addPlayer = function(name) {
   this.players.push(player);
 }
 
-
+Game.prototype.endTurn = function() {
+  const playerEndingTurn = this.players.shift()
+  this.players.push(playerEndingTurn)
+  playerEndingTurn.hold()
+}
 
 function Player(name) {
   this.name = name;
@@ -24,17 +28,16 @@ Player.prototype.roll = function() {
   const randomRoll = Math.floor(Math.random() * 6) + 1
   if (randomRoll === 1) {
     this.score.turn = 0
-    return 0
+  } else {
+    this.score.turn += randomRoll
   }
-  this.score.turn += randomRoll
-  return randomRoll
+  return randomRoll // call game.endTurn() if 1 is returned
 }
 
 Player.prototype.hold = function() {
   this.score.total += this.score.turn;
   this.score.turn = 0;
 }
-
 
 const game = new Game();
 game.addPlayer("Steve")
