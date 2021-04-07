@@ -26,9 +26,20 @@ Describe: Player(name)
     Expect: 
       true
       
-
-
-
+  Describe: Player.prototype.hold()
+    Test:
+      player sets score.current to 0 and adds what it was into score.total
+    Code:
+      const previousTurnScore = player1.score.turn
+      const previousTotalScore = player1.score.total
+      player1.hold()
+      player1.score
+      game.players
+    Expect: 
+      Object {
+        turn: 0,
+        total: previousTurnScore + previousTotalScore
+      }
 
 Describe: Game(number)
   Test:
@@ -58,3 +69,8 @@ Describe: Game(number)
         }, 
         null
       ]
+
+Describe:
+Test:
+Code:
+Expect:
