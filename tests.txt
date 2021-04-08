@@ -117,3 +117,36 @@ Describe: Game(number)
       playerEndingTurn.gamesWon
     Expect:
       1
+
+  Describe: Game.prototype.advancePhase()
+    Test:
+      move zeroth phase to last place in gamePhase, making previous first phase zeroth  
+    Code:
+      const previousZeroth = game.gamePhase[0]
+      const previousFirst = game.gamePhase[1]
+      currentGame.advancePhase(1)
+      (
+        game.gamePhase[0] === previousFirst
+        &&
+        game.gamePhase[game.gamePhase.length - 1] === previousZeroth
+      )
+    Expect:
+      true
+
+  Describe: Game.prototype.resetGame()
+    Test:
+      move zeroth phase to last place in gamePhase, making previous first phase zeroth  
+    Code:
+      const previousZeroth = game.gamePhase[0]
+      const previousFirst = game.gamePhase[1]
+      const previousSecond = game.gamePhase[2]
+      currentGame.advancePhase(2)
+      (
+        game.gamePhase[0] === previousSecond
+        &&
+        game.gamePhase[game.gamePhase.length - 1] === previousFirst
+        &&
+        game.gamePhase[game.gamePhase.length - 2] === previousZeroth
+      )
+    Expect:
+      true
