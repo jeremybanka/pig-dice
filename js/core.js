@@ -1,20 +1,3 @@
-function Game() {
-  this.gameHasStarted = false;
-  this.gamesPlayed = 0;
-  this.players = [];
-}
-
-Game.prototype.addPlayer = function(name) {
-  const player = new Player(name);
-  this.players.push(player);
-}
-
-Game.prototype.endTurn = function() {
-  const playerEndingTurn = this.players.shift()
-  this.players.push(playerEndingTurn)
-  playerEndingTurn.hold()
-}
-
 function Player(name) {
   this.name = name;
   this.score = {
@@ -37,6 +20,24 @@ Player.prototype.roll = function() {
 Player.prototype.hold = function() {
   this.score.total += this.score.turn;
   this.score.turn = 0;
+}
+
+function Game() {
+  this.gameState = false;
+  this.gamesPlayed = 0;
+  this.players = [];
+}
+
+Game.prototype.addPlayer = function(name) {
+  const player = new Player(name);
+  this.players.push(player);
+}
+
+Game.prototype.endTurn = function() {
+  const playerEndingTurn = this.players.shift()
+  this.players.push(playerEndingTurn)
+  playerEndingTurn.hold()
+
 }
 
 const game = new Game();

@@ -7,17 +7,17 @@ Describe: Player(name)
   Expect:
     Player {
       name: 'Jem',
-      score: { total: 0, current: 0 },
+      score: { total: 0, turn: 0 },
       gamesWon: 0,
     }
 
   Describe: Player.prototype.roll()
     Test:
-      will create random number between 1 and 6 or 
-    Code: 
-      const previousScore = player1.score.current
+      rolling either sets your turn score to 0 or to a number 2-6 greater than your previous
+    Code:
+      const previousScore = player1.score.turn
       player1.roll()
-      const newScore = player1.score.current
+      const newScore = player1.score.turn
       (
       newScore === 0 
       ||
@@ -34,8 +34,7 @@ Describe: Player(name)
       const previousTotalScore = player1.score.total
       player1.hold()
       player1.score
-      game.players
-    Expect: 
+    Expect:
       Object {
         turn: 0,
         total: previousTurnScore + previousTotalScore
@@ -43,22 +42,22 @@ Describe: Player(name)
 
 Describe: Game(number)
   Test:
-    Will create game object with 2 players
+    Will create game object with empty player roster
   Code:
-    const game = new Game(2)
+    const game = new Game()
     game
   Expect:
     Game {
-      gameHasStarted: false,
+      gamePhase: ['title-card', 'sign-in', 'gameplay', 'recap']
       gamesPlayed: 0,
-      players: [null, null]
+      players: []
     }
 
   Describe: Game.prototype.addPlayer(name)
     Test:
       Will add player to game.players
     Code:
-      currentGame.addPlayer('John', 0)
+      currentGame.addPlayer('John')
       currentGame.players
     Expect:
       [ 
@@ -73,8 +72,48 @@ Describe: Game(number)
     Test: 
       Will push the first player position to the last player position
     Code: 
-      const playerLastTurn = currentGame.players[0] 
+      const playerEndingTurn = currentGame.players[0] 
       currentGame.endTurn()
-      playerLastTurn === currentGame.players[players.length - 1]
+      playerEndingTurn === currentGame.players[players.length - 1]
     Expect:
       true
+
+  Describe: Game.prototype.checkWin(playerEndingTurn)
+    Test:
+      If player's total score is < 100, keep gamePhase at 'gameplay'
+    Code:
+      const playerEndingTurn = Player {
+          name: 'John',
+          score: { total: 99, current: 0 },
+          gamesWon: 0,
+        } 
+      currentGame.checkWin(playerEndingTurn)
+      game.gamePhase[0]
+    Expect:
+      'gameplay'
+
+    Test:
+      If player's total score is >= 100, set gamePhase to 'recap'
+    Code:
+      const playerEndingTurn = Player {
+          name: 'John',
+          score: { total: 100, current: 0 },
+          gamesWon: 0,
+        } 
+      currentGame.checkWin(playerEndingTurn)
+      game.gamePhase[0]
+    Expect:
+      'recap'
+
+    Test:
+      If player's total score is >= 100, add 1 to gamesWon
+    Code:
+      const playerEndingTurn = Player {
+          name: 'John',
+          score: { total: 100, current: 0 },
+          gamesWon: 0,
+        } 
+      currentGame.checkWin(playerEndingTurn)
+      playerEndingTurn.gamesWon
+    Expect:
+      1
