@@ -23,7 +23,7 @@ Player.prototype.hold = function() {
 }
 
 function Game() {
-  this.gamePhase = ['title-card', 'sign-in', 'gameplay', 'recap'];
+  this.phases = ['title-card', 'sign-in', 'gameplay', 'recap'];
   this.gamesPlayed = 0;
   this.players = [];
 }
@@ -43,11 +43,17 @@ Game.prototype.endTurn = function() {
 Game.prototype.checkWin = function(player) {
   if (player.score.total > 30) {
     player.gamesWon += 1;
-    const currentPhase = this.gamePhase.shift();
-    this.gamePhase.push(currentPhase);
+    this.advancePhase(1);
     return true;
   }
   return false;
+}
+
+Game.prototype.advancePhase = function(number) {
+  for (let index = 0; index < number; index ++) {
+    const currentPhase = this.phases.shift();
+    this.phases.push(currentPhase);
+  }
 }
 
 const game = new Game();
