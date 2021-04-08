@@ -1,16 +1,53 @@
 <!DOCTYPE html>
-<html lang='en-us'>
-<head>
-  <link href="styles/core.css" rel="stylesheet" type="text/css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" defer></script>
-  <script src="js/core.js" defer></script>
-  <title>TITLE</title>
-</head>
-<body>
-  <header></header>
-  <main>
+<html lang="en-us">
+  <head>
+    <link href="styles/core.css" rel="stylesheet" type="text/css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"
+      defer
+    ></script>
+    <script src="js/core.js" defer></script>
+    <title>TITLE</title>
+    <template id="title-card">
+      <button id="start-game" type="button">Start Game</button>
+    </template>
+    <template id="sign-in">
+      <form>
+        <input type="text" id="player-name" placeholder="Input Name" />
+        <button id="ready" type="button">Ready</button>
+      </form>
+      <button id="confirm-players" type="button">Start Game</button>
+    </template>
+    <template id="gameplay">
+      <div id="center-stage">
+      </div>
+      <div>
+        <h4>Scores</h4>
+        <div id="queue"></div>
+      </div>
+    </template>
+    <template id="recap">
+      <button id="new-game" type="button">New Game</button>
+    </template>
+    <template id="player-queue-card">
+      <div>
+        <p>
+          Total Score:<span></span><br />
+          Name: <span></span><br />
+          Turn Score: <span></span>
+        </p>
+      </div>
+    </template>
+    <template id="current-player">
+      <h2 id="current-roll">#</h2>
+      <h3 id="current-player-name">Steve</h3>
 
-  </main>
-  <footer></footer>
-</body>
+      <button id="roll" type="button">Roll</button>
+      <button id="hold" type="button">Hold</button>
+    </template>
+  </head>
+  <body>
+    <header><h1>Pig Dice</h1></header>
+    <main></main>
+  </body>
 </html>

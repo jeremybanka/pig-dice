@@ -37,7 +37,8 @@ Game.prototype.endTurn = function() {
   const playerEndingTurn = this.players.shift()
   this.players.push(playerEndingTurn)
   playerEndingTurn.hold()
-  this.checkWin(playerEndingTurn)
+  const playerWonTheGame = this.checkWin(playerEndingTurn)
+  return playerWonTheGame
 }
 
 Game.prototype.checkWin = function(player) {
@@ -50,14 +51,96 @@ Game.prototype.checkWin = function(player) {
 }
 
 Game.prototype.advancePhase = function(number) {
+  console.log('advancing',  number, '')
   for (let index = 0; index < number; index ++) {
     const currentPhase = this.phases.shift();
     this.phases.push(currentPhase);
   }
 }
 
+Game.prototype.resetGame = function() {
+  this.players.forEach(player => {
+    player.score.turn = 0
+    player.score.total = 0
+  })
+  this.advancePhase(2)
+}
+
+const demoGame = new Game();
+demoGame.addPlayer("Steve")
+demoGame.addPlayer("Mary")
+const steve = demoGame.players[0]
+const mary = demoGame.players[1]
+
+function $replaceMain($content) {
+  const $main = $('main')
+  $main.empty()
+  $main.append($content)
+}
+function $replaceCenterStage($content) {
+  const $centerStage = $('#center-stage')
+  $centerStage.empty()
+  $centerStage.append($content)
+}
+
 const game = new Game();
 game.addPlayer("Steve")
 game.addPlayer("Mary")
-const steve = game.players[0]
-const mary = game.players[1]
+
+function $printPhaseScreen() {
+  const phaseId = game.phases[0]
+  const $phaseScreen = $(`#${phaseId}`).contents().clone()  
+
+  $replaceMain($phaseScreen)
+  $('#start-game').on('click', () => {
+    game.advancePhase(1)
+    $printPhaseScreen()
+  })
+
+  $('#confirm-players').on('click', () => {
+    game.advancePhase(1)
+    $printPhaseScreen()
+    $printCurrentPlayer()
+    // $printPlayerQueue()
+  })
+
+  $('#start-over').on('click', () => {
+    game.advancePhase(1)
+    $printPhaseScreen()
+  })
+
+  
+}
+function $printCurrentPlayer() {
+  const currentPlayer = game.players[0]
+  const $currentPlayer = $('#current-player').contents().clone()
+  $replaceCenterStage($currentPlayer)
+  $('#roll').on('click', () => {
+    const currentRoll = game.players[0].roll();
+    console.log(
+      game.players[0].name, 
+      'just scored', 
+      currentRoll, 
+      'turn score is now',
+      game.players[0].score.turn, 
+      'total',
+      game.players[0].score.total, 
+    )
+    if (currentRoll === 1) game.endTurn()
+    $printCurrentPlayer()
+  })
+
+  $('#hold').on('click', () => {
+    game.players[0].hold()
+    const gameOver = game.endTurn()
+    if (gameOver) {
+      game.advancePhase(1);
+      $printPhaseScreen()
+    } else {
+      $printCurrentPlayer()
+    }
+    // $printPlayerQueue()
+  })
+}
+
+$printPhaseScreen()
