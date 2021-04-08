@@ -11,13 +11,16 @@
     <template id="title-card">
       <button id="start-game" type="button">Start Game</button>
     </template>
+
     <template id="sign-in">
       <form id="player-name">
-        <input type="text" placeholder="Input Name" />
-        <button id="ready" type="button">Ready</button>
+        <input type="text" placeholder="Input Name" required />
+        <button id="ready" type="submit">Ready</button>
       </form>
       <button id="confirm-players" type="button">Start Game</button>
+      <ul id="players-ready"></ul>
     </template>
+
     <template id="gameplay">
       <div id="center-stage"></div>
       <div>
@@ -25,21 +28,25 @@
         <div id="queue"></div>
       </div>
     </template>
+
     <template id="recap">
       <button id="start-over" type="button">Play Again</button>
     </template>
+
     <template id="player-queue-card">
-      <div>
+      <div class="player-queue-card">
         <p>
-          Total Score:<span></span><br />
-          Name: <span></span><br />
-          Turn Score: <span></span>
+          Total Score:<span class="total-score"></span><br />
+          Name: <span class="player-name"></span>
         </p>
       </div>
     </template>
+
     <template id="current-player">
-      <h2 id="current-roll">6</h2>
       <h3 id="current-player-name"></h3>
+      <h2>Current roll: <span id="current-roll">00</span></h2>
+      <h2>Total this turn: <span id="turn-score">00</span></h2>
+      <h2>Total score saved: <span id="total-score">00</span></h2>
 
       <button id="roll" type="button">Roll</button>
       <button id="hold" type="button">Hold</button>

@@ -43,7 +43,7 @@ Game.prototype.endTurn = function() {
 }
 
 Game.prototype.checkWin = function(player) {
-  if (player.score.total > 30) {
+  if (player.score.total >= 100) {
     player.gamesWon += 1;
     this.advancePhase(1);
     return true;
@@ -79,22 +79,31 @@ function $replaceCenterStage($content) {
 }
 
 const game = new Game();
-game.addPlayer("Steve")
-game.addPlayer("Mary")
+// game.addPlayer("Steve")
+// game.addPlayer("Mary")
 
 function $addListeners() {
   $('#start-game').on('click', () => {
     game.advancePhase(1)
     $printPhaseScreen()
   })
-
-  $('#confirm-players').on('click', () => {
-    game.advancePhase(1)
-    $printPhaseScreen()
-    $printCurrentPlayer()
-    // $printPlayerQueue()
+  $('#player-name').on('submit', e => {
+    e.preventDefault()
+    const $nameInput = $('#player-name > input')
+    const inputtedPlayerName = $nameInput.val()
+    game.addPlayer(inputtedPlayerName)
+    $nameInput.val("")
+    const $li = $('<li/>').text(inputtedPlayerName)
+    $('#players-ready').append($li)
   })
-
+  $('#confirm-players').on('click', () => {
+    if(game.players.length > 0){
+      game.advancePhase(1)
+      $printPhaseScreen()
+      $printCurrentPlayer()
+      // $printPlayerQueue()
+    }
+  })
   $('#start-over').on('click', () => {
     game.resetGame()
     $printPhaseScreen()
@@ -114,29 +123,25 @@ function $printCurrentPlayer(currentRoll) {
   $replaceCenterStage($currentPlayer)
   const $currentRoll = $('#current-roll')
   const $currentPlayerName = $('#current-player-name')
+  const $totalScore = $('#total-score')
+  const $turnScore = $('#turn-score')
   $currentRoll.text(currentRoll);
   $currentPlayerName.text(currentPlayer.name);
+  $totalScore.text(currentPlayer.score.total);
+  $turnScore.text(currentPlayer.score.turn)
   $('#roll').on('click', () => {
-    const currentRoll = game.players[0].roll();
+    const currentRoll = currentPlayer.roll();
     $('#current-roll').text('currentRoll')
-    console.log(
-      game.players[0].name, 
-      'just scored', 
-      currentRoll, 
-      'turn score is now',
-      game.players[0].score.turn, 
-      'total',
-      game.players[0].score.total, 
-    )
     if (currentRoll === 1) game.endTurn()
     $printCurrentPlayer(currentRoll)
   })
 
   $('#hold').on('click', () => {
-    game.players[0].hold()
+    currentPlayer.hold()
     const gameOver = game.endTurn()
     if (gameOver) {
       $printPhaseScreen()
+      $replaceMain(`${currentPlayer.name} is the winner!`)
     } else {
       $printCurrentPlayer()
     }
