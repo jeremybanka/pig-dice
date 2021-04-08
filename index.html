@@ -12,22 +12,21 @@
       <button id="start-game" type="button">Start Game</button>
     </template>
     <template id="sign-in">
-      <form>
-        <input type="text" id="player-name" placeholder="Input Name" />
+      <form id="player-name">
+        <input type="text" placeholder="Input Name" />
         <button id="ready" type="button">Ready</button>
       </form>
       <button id="confirm-players" type="button">Start Game</button>
     </template>
     <template id="gameplay">
-      <div id="center-stage">
-      </div>
+      <div id="center-stage"></div>
       <div>
         <h4>Scores</h4>
         <div id="queue"></div>
       </div>
     </template>
     <template id="recap">
-      <button id="new-game" type="button">New Game</button>
+      <button id="start-over" type="button">Play Again</button>
     </template>
     <template id="player-queue-card">
       <div>
@@ -39,15 +38,15 @@
       </div>
     </template>
     <template id="current-player">
-      <h2 id="current-roll">#</h2>
-      <h3 id="current-player-name">Steve</h3>
+      <h2 id="current-roll">6</h2>
+      <h3 id="current-player-name"></h3>
 
       <button id="roll" type="button">Roll</button>
       <button id="hold" type="button">Hold</button>
     </template>
   </head>
   <body>
-    <header><h1>Pig Dice</h1></header>
+    <header><h1 id="heading">Pig Dice</h1></header>
     <main></main>
   </body>
 </html>

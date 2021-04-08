@@ -1,3 +1,4 @@
+// business logic
 function Player(name) {
   this.name = name;
   this.score = {
@@ -66,12 +67,6 @@ Game.prototype.resetGame = function() {
   this.advancePhase(2)
 }
 
-const demoGame = new Game();
-demoGame.addPlayer("Steve")
-demoGame.addPlayer("Mary")
-const steve = demoGame.players[0]
-const mary = demoGame.players[1]
-
 function $replaceMain($content) {
   const $main = $('main')
   $main.empty()
@@ -87,11 +82,7 @@ const game = new Game();
 game.addPlayer("Steve")
 game.addPlayer("Mary")
 
-function $printPhaseScreen() {
-  const phaseId = game.phases[0]
-  const $phaseScreen = $(`#${phaseId}`).contents().clone()  
-
-  $replaceMain($phaseScreen)
+function $addListeners() {
   $('#start-game').on('click', () => {
     game.advancePhase(1)
     $printPhaseScreen()
@@ -105,18 +96,29 @@ function $printPhaseScreen() {
   })
 
   $('#start-over').on('click', () => {
-    game.advancePhase(1)
+    game.resetGame()
     $printPhaseScreen()
   })
-
-  
 }
-function $printCurrentPlayer() {
+
+function $printPhaseScreen() {
+  const phaseId = game.phases[0]
+  const $phaseScreen = $(`#${phaseId}`).contents().clone()  
+  $replaceMain($phaseScreen)
+  $addListeners()
+}
+
+function $printCurrentPlayer(currentRoll) {
   const currentPlayer = game.players[0]
   const $currentPlayer = $('#current-player').contents().clone()
   $replaceCenterStage($currentPlayer)
+  const $currentRoll = $('#current-roll')
+  const $currentPlayerName = $('#current-player-name')
+  $currentRoll.text(currentRoll);
+  $currentPlayerName.text(currentPlayer.name);
   $('#roll').on('click', () => {
     const currentRoll = game.players[0].roll();
+    $('#current-roll').text('currentRoll')
     console.log(
       game.players[0].name, 
       'just scored', 
@@ -127,14 +129,13 @@ function $printCurrentPlayer() {
       game.players[0].score.total, 
     )
     if (currentRoll === 1) game.endTurn()
-    $printCurrentPlayer()
+    $printCurrentPlayer(currentRoll)
   })
 
   $('#hold').on('click', () => {
     game.players[0].hold()
     const gameOver = game.endTurn()
     if (gameOver) {
-      game.advancePhase(1);
       $printPhaseScreen()
     } else {
       $printCurrentPlayer()
