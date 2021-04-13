@@ -1,16 +1,17 @@
-const path = require(`path`)
-const HtmlWebpackPlugin = require(`html-webpack-plugin`)
-const { CleanWebpackPlugin } = require(`clean-webpack-plugin`)
+const path = require(`path`);
+const HtmlWebpackPlugin = require(`html-webpack-plugin`);
+const { CleanWebpackPlugin } = require(`clean-webpack-plugin`);
 
 module.exports = {
-  entry: `./src/js/core.js`,
+  entry: `./src/js/app.js`,
   output: {
     filename: `bundle.js`,
     path: path.resolve(__dirname, `dist`),
   },
-  devtool: `eval-source-map`,  // new line
-  devServer: {                 // new line
-    contentBase: `./dist`,      // new line
+  devtool: `eval-source-map`, // new line
+  devServer: {
+    // new line
+    contentBase: `./dist`, // new line
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -24,18 +25,11 @@ module.exports = {
     rules: [
       {
         test: /\.scss$/,
-        use: [
-          `style-loader`,
-          `css-loader`,
-          `sass-loader`,
-        ],
+        use: [`style-loader`, `css-loader`, `sass-loader`],
       },
       {
         test: /\.css$/,
-        use: [
-          `style-loader`,
-          `css-loader`,
-        ],
+        use: [`style-loader`, `css-loader`],
       },
       {
         test: /\.js$/,
@@ -44,4 +38,4 @@ module.exports = {
       },
     ],
   },
-}
+};
