@@ -1,6 +1,8 @@
-const path = require(`path`);
-const HtmlWebpackPlugin = require(`html-webpack-plugin`);
-const { CleanWebpackPlugin } = require(`clean-webpack-plugin`);
+/* eslint-disable-semi */
+const path = require(`path`)
+const HtmlWebpackPlugin = require(`html-webpack-plugin`)
+const { CleanWebpackPlugin } = require(`clean-webpack-plugin`)
+/* eslint-enable-semi */
 
 module.exports = {
   entry: `./src/js/app.js`,
@@ -38,4 +40,4 @@ module.exports = {
       },
     ],
   },
-};
+}
