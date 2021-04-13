@@ -1,3 +1,6 @@
+import '../styles/core.scss'
+import $ from 'jquery'
+
 // business logic
 function Player(name) {
   this.name = name;
